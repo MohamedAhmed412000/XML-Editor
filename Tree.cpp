@@ -30,7 +30,7 @@ void Tree::xml_to_json(TreeNode* node){
 	
 	obj+="\"" + node->Tag_Name + "\"";
 	obj+=": {";
-	int numbers=countattributes(node);
+	int number=countattributes(node);
 	for(int i=0; i < number;i++){
 		obj+="\"" +"@"+ node->attributes[i].Name + "\"";
 		obj+=": {";
