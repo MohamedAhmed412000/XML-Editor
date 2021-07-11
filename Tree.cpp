@@ -26,3 +26,28 @@ int Tree::countattributes(TreeNode* node){
 }
 
 
+void Tree::xml_to_json(TreeNode* node){
+	
+	obj+="\"" + node->Tag_Name + "\"";
+	obj+=": {";
+	int numbers=countattributes(node);
+	for(int i=0; i < number;i++){
+		obj+="\"" +"@"+ node->attributes[i].Name + "\"";
+		obj+=": {";
+		obj+="\"" +"@"+ node->attributes[i].Value + "\"";
+		obj+=",";
+	}
+	obj+="\"" + "#"+ "text" + "\"" +": ";
+	obj+="\"" + node->Tag_Value + "\"" + "}";
+	for(int i = 0; i < countchildren(node); i++){
+		if(node->children==nullptr){
+			return;
+		}
+		else{
+			xml_to_json(node->children[i]);//recursion
+		}
+	}
+	
+}
+
+
