@@ -34,7 +34,7 @@ void Tree::form(stack<TreeNode*> Similiars,int &g){
 	obj+="\n";
 	while(!(Similiars.empty())){
 		int n = countattributes(Similiars.top());
-		if(n>0){
+		if(n>=0){
 			obj+="\"" + Similiars.top()->Tag_Name + "\"";
 			obj+=": {";
 			obj+="\n";
@@ -45,14 +45,6 @@ void Tree::form(stack<TreeNode*> Similiars,int &g){
 				obj+=",";
 				obj+="\n";
 			}
-			obj+="\"" + "#"+ "text" + "\"" +": ";
-			obj+="\"" + Similiars.top()->Tag_Value + "\"" + "}";
-			obj+="\n";
-		}
-		else{
-			obj+="\"" + Similiars.top()->Tag_Name + "\"";
-			obj+=": {";
-			obj+="\n";
 			obj+="\"" + "#"+ "text" + "\"" +": ";
 			obj+="\"" + Similiars.top()->Tag_Value + "\"" + "}";
 			obj+="\n";
@@ -69,10 +61,10 @@ void Tree::xml2json(TreeNode* node){
 	stack<TreeNode*> Similiars;
 	if(countchildren(node)==0){
 		int n = countattributes(node);
-		if(n>0){
-			obj+="\"" + node->Tag_Name + "\"";
-			obj+=": {";
-			obj+="\n";
+		obj+="\"" + node->Tag_Name + "\"";
+		obj+=": {";
+		obj+="\n";
+		if(n>=0){
 			for(int i=0;i<n;i++){
 				obj+="\"" +"@"+ node->attributes[i].Name + "\"";
 				obj+=": {";
@@ -80,20 +72,11 @@ void Tree::xml2json(TreeNode* node){
 				obj+=",";
 				obj+="\n";
 			}
-			obj+="\"" + "#"+ "text" + "\"" +": ";
-			obj+="\"" + node->Tag_Value + "\"" + "}";
-			obj+="\n";
-			return;
 		}
-		else{
-			obj+="\"" + node->Tag_Name + "\"";
-			obj+=": {";
-			obj+="\n";
-			obj+="\"" + "#"+ "text" + "\"" +": ";
-			obj+="\"" + node->Tag_Value + "\"" + "}";
-			obj+="\n";
-			return;
-		}
+		obj+="\"" + "#"+ "text" + "\"" +": ";
+		obj+="\"" + node->Tag_Value + "\"" + "\n"+"}";
+		obj+="\n";
+		return;
 	}
 
 	g=countchildren(node);
@@ -105,6 +88,27 @@ void Tree::xml2json(TreeNode* node){
 		else{
 			form(Similiars,g); //not sure of that yet as i need to delete the similar nodes after we use it because if we don't it will be called forever
 		}
+	}
+}
+
+void Tree::minifying(TreeNode* node){
+	g=countchildren(node);
+	if(g==0){
+		int n = countattributes(node);
+		mini+="<" + node->Tag_Name;
+		if(n>=0){
+			for(int i=0;i<n;i++){
+				mini+=" " +node->attributes[i].Name + "=";
+				mini+="\""+ node->attributes[i].Value +"\" ";
+			}
+		}
+		mini+=">";
+		mini+=node->Tag_Value;
+		mini+="/<" + node->Tag_Name+">";
+		return;
+	}
+	for(int i = 0; i < g; i++){
+			minifying(node->children[i]);
 	}
 }
 
