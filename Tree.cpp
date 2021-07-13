@@ -27,39 +27,43 @@ int Tree::countattributes(TreeNode* node){
 }
 
 
-void Tree::form(stack<TreeNode*> Similiars,int &g){
+void Tree::form(stack<TreeNode*>&Similiars,int &g){
 	int i=0;
 	obj+="\"" + Similiars.top()->Tag_Name + "\"";
 	obj+=": [";
 	obj+="\n";
 	while(!(Similiars.empty())){
 		int n = countattributes(Similiars.top());
+		obj+="\"" + Similiars.top()->Tag_Name + "\"";
+		obj+=": {";
 		if(n>=0){
-			obj+="\"" + Similiars.top()->Tag_Name + "\"";
-			obj+=": {";
-			obj+="\n";
 			for(int i=0;i<n;i++){
 				obj+="\"" +"@"+ Similiars.top()->attributes[i].Name + "\"";
-				obj+=": {";
-				obj+="\"" +"@"+ Similiars.top()->attributes[i].Value + "\"";
+				obj+="\"" + Similiars.top()->attributes[i].Value + "\"";
 				obj+=",";
-				obj+="\n";
 			}
+		}
+		if(Similiars.top()->Tag_Value!=nullptr){
 			obj+="\"" + "#"+ "text" + "\"" +": ";
 			obj+="\"" + Similiars.top()->Tag_Value + "\"" + "}";
 			obj+="\n";
 		}
+		else{
+			obj+="}";
+		}
+		Similiars.top()->visited = true;
 		Similiars.pop();
 		i++;
 		g--;
 	}
-	
+	obj+="]";
 }
 
 
 void Tree::xml2json(TreeNode* node){
 	stack<TreeNode*> Similiars;
-	if(countchildren(node)==0){
+	g=countchildren(node);
+	if(g==0){
 		int n = countattributes(node);
 		obj+="\"" + node->Tag_Name + "\"";
 		obj+=": {";
@@ -67,25 +71,28 @@ void Tree::xml2json(TreeNode* node){
 		if(n>=0){
 			for(int i=0;i<n;i++){
 				obj+="\"" +"@"+ node->attributes[i].Name + "\"";
-				obj+=": {";
-				obj+="\"" +"@"+ node->attributes[i].Value + "\"";
+				obj+="\"" + node->attributes[i].Value + "\"";
 				obj+=",";
 				obj+="\n";
 			}
+		} //if the tag does not have text
+		if(node->Tag_Value!=nullptr){
+			obj+="\"" + "#"+ "text" + "\"" +": ";
+			obj+="\"" + node->Tag_Value + "\"" + "\n"+"}";
+			obj+="\n";
 		}
-		obj+="\"" + "#"+ "text" + "\"" +": ";
-		obj+="\"" + node->Tag_Value + "\"" + "\n"+"}";
-		obj+="\n";
+		else{
+			obj+="\"" + "#"+ "text" + "\"" +": "+"NULL"+"}";
+		}
 		return;
 	}
 
-	g=countchildren(node);
 	for(int i = 0; i < g; i++){
 		int m = countsimiliar(node,node->children[i],Similiars);
 		if(m==1){
 			xml2json(node->children[i]);
 		}
-		else{
+		else if(m>1&&(node->children[i].visited==false)){
 			form(Similiars,g); //not sure of that yet as i need to delete the similar nodes after we use it because if we don't it will be called forever
 		}
 	}
@@ -111,5 +118,4 @@ void Tree::minifying(TreeNode* node){
 			minifying(node->children[i]);
 	}
 }
-
 

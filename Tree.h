@@ -17,6 +17,7 @@ public:
 	string Tag_Name, Tag_Value;
 	vector<Attribute> attributes;
 	vector<TreeNode *> children;
+	bool visited = false;
 	TreeNode(string n = "", string v = ""){
 		Tag_Name = n;
 		Tag_Value = v;
