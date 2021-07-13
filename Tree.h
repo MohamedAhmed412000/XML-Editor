@@ -29,9 +29,11 @@ public:
 	Tree();
 	bool is_empty();
 	int countchildren(TreeNode* node);
-	int countsimiliar(TreeNode* node, string tag_n);
+	int countsimiliar(TreeNode* node, string tag_n, stack<TreeNode*>& Similiars);
 	int countattributes(TreeNode* node);
-	string xml_to_json(Tree Xml);
+	void form(stack<TreeNode*> Similiars,int &g);
+	string xml2json(TreeNode* node);
+	
 	//int Node_hight(TreeNode* node); //get the hight of that node
 	//int Tree_hight(TreeNode* node); //get the hight of the all tree
 	//int Nodes_number(TreeNode* node);//get the number of all nodes
