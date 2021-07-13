@@ -4,7 +4,70 @@
 #include <iostream>
 #include<string>
 #include<vector>
+#include<stack>
 using namespace std;
+int checking_errors(vector<string>&strr,vector<string>&modified,int &counter)
+{
+	vector<int>error;
+	stack<string> s;
+	string nn = "";
+	for (int i = 0; i < strr.size(); i++)
+	{
+		if (strr[i][0] != '<')
+		{
+			modified.push_back(strr[i]);
+			counter++;
+		}
+		if (strr[i][0] == '<'&&strr[i][1] != '/')
+		{
+			if (i != 0 && strr[i - 1][0] != '<')
+			{
+				error.push_back(i);
+				nn = s.top();
+				nn.insert(1, "/");
+				modified.push_back(nn);
+				counter++;
+				s.pop();
+			}
+			s.push(strr[i]);
+			modified.push_back(strr[i]);
+			counter++;
+		}
+		if (strr[i][0] == '<'&&strr[i][1] == '/')
+		{
+			string er = s.top();
+			string neww;
+			neww = strr[i];
+			strr[i].erase(1, 1);
+			if (strr[i] == er)
+			{
+				s.pop();
+				modified.push_back(neww);
+				counter++;
+			}
+			else
+			{
+				error.push_back(i);
+				string er = s.top();
+				string app = er.insert(1, "/");
+				modified.push_back(app);
+				counter++;
+				s.pop();
+			}
+		}
+	}
+	for (int i = 0; i < strr.size(); i++)
+	{
+		if (s.empty())
+			break;
+		string m = s.top();
+		m.insert(1, "/");
+		modified.push_back(m);
+		counter++;
+		s.pop();
+	}
+	return error.size();
+}
 int vector_parse(string str,vector<string>&strr)
 {
 	string newstr = "";
@@ -90,6 +153,8 @@ int vector_parse(string str,vector<string>&strr)
 }
 int main()
 {
+	
+	int errors = 0;
 	string str = "<users>                                           "
 		"    <user>                                                 "
 		"        <id>1                                              "
@@ -103,6 +168,7 @@ int main()
 		"			</post>                                         "
 		"		 </posts>                                           "
 		"		 <followers>                                        "
+		"                <follower>                                 "
 		"			    <name> 2 </id>                              "
 		"			</follower>                                     "
 		"			<follower>                                      "
@@ -112,14 +178,23 @@ int main()
 		"</users>                                                   ";
 	vector<string> strr;
 	int total = 0;
+	int counter = 0;
+	int k = 0;
+	vector<string>modified;
 	total=vector_parse(str,strr);
-
-	for (int i = 0; i < total; i++)
+	errors = checking_errors(strr,modified,counter);
+/*	for (int i = 0; i < total; i++)
 	{
 		cout << strr[i] << endl;
-	}
-
+	}*/
+	cout << "modified vector" << endl;
 	
+	for (int i = 0; i < counter; i++)
+	{
+		cout << modified[i] << endl;
+	}
+	cout << errors << endl;
+
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
