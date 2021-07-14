@@ -1,11 +1,4 @@
-#include<iostream>
-#include<string>
-#include <fstream>
-#include <vector>
-#include <unordered_map>
-#include <algorithm>
-using namespace std;
-
+//Encoding function need string that is to be encoded
 vector<int> encoding(string s1)
 {
 	unordered_map<string, int> table;
@@ -36,6 +29,8 @@ vector<int> encoding(string s1)
 	output_code.push_back(table[p]);
 	return output_code;
 }
+//Decoding function output string that will be printed 
+//Need vector of int 
 string decoding(vector<int> op)
 {
 	string out = "";
@@ -69,6 +64,7 @@ string decoding(vector<int> op)
 	}
 	return out;
 }
+//Function to write the encoded values to .dat file
 void writeFile(string f,vector<int> a) {
 	ofstream file(f, ios::binary | ios::out);
 	for (int i = 0; i < a.size(); i++) {
@@ -77,7 +73,7 @@ void writeFile(string f,vector<int> a) {
 	}
 	file.close();
 }
-
+//Function to read the encoded values to .dat file
 vector<int> readFile(string f) {
 	ifstream file(f, ios::binary | ios::in);
 	vector<int>b;
@@ -89,25 +85,27 @@ vector<int> readFile(string f) {
 	file.close();
 	return b;
 }
+/* Example how to use functions
 int main()
 {
 	vector<string> t;
 	string text;
 	string x = "";
-	ifstream fileRead("hi.xml");
-	while (getline(fileRead, text)) {
+	ifstream fileRead("hi.xml");		//input stream 
+	while (getline(fileRead, text)) {	//read the file line by line without any spaces in beginning of the line
 		size_t i = text.find('<');
 		text.erase(0, i);
 		t.push_back(text);
 		x += t.back();
 	}
-	fileRead.close();
-	vector<int> a = encoding(x);
-	writeFile("hi.dat", a);
+	fileRead.close();					//close file stream
+	vector<int> a = encoding(x);		//encode the desired file and store the output of the function to vector to be stored in .dat file 
+	writeFile("hi.dat", a);				//write the ouput vector to .dat file 
 	vector<int>b;
-	b = readFile("hi.dat");
-	b.pop_back();
-	string s = decoding(b);
-	cout << s;
+	b = readFile("hi.dat");				//read encoded numbers from .dat file to decode 
+	b.pop_back();						//delete end of file 
+	string s = decoding(b);				//decode to original file
+	cout << s;							//output of the file(Note:it is output is in one line) 
 	return 0;
 }
+*/
