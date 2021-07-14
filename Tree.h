@@ -8,6 +8,7 @@ using namespace std;
 string obj={};
 string mini={};
 string V={};
+static var=0;
 
 struct Attribute{
 	string Name, Value;
@@ -34,8 +35,8 @@ public:
 	int countchildren(TreeNode* node);
 	int countsimiliar(TreeNode* node, string tag_n, stack<TreeNode*>& Similiars);
 	int countattributes(TreeNode* node);
-	void form(stack<TreeNode*> Similiars,int &g);
-	void xml2json(TreeNode* node);
+	void form(stack<TreeNode*> &Similiars,int &g,string &obj);
+	void xml2json(TreeNode* node,string &obj);
 	void minifying(TreeNode* node);
 	void View(TreeNode* node);
 	//int Node_hight(TreeNode* node); //get the hight of that node

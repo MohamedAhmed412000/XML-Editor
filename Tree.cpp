@@ -15,10 +15,11 @@ int Tree::countchildren(TreeNode* node){
 int Tree::countsimiliar(TreeNode* node, string tag_n, stack<TreeNode*>& Similiars){
 	int count = 0;
 	for(int i = 0; i < countchildren(node); i++){
-	if(node->children[i]->Tag_Name == tag_n)
+	if(node->children[i]->Tag_Name == tag_n){
 			Similiars.push(node->children[i]);
 			count++;
 		}
+	}
 	return count;
 }
 
@@ -27,79 +28,85 @@ int Tree::countattributes(TreeNode* node){
 }
 
 
-void Tree::form(stack<TreeNode*>&Similiars,int &g){
+void Tree::form(stack<TreeNode*> &Similiars,int &g,string &obj){
 	int i=0;
 	obj+="\"" + Similiars.top()->Tag_Name + "\"";
 	obj+=": [";
 	obj+="\n";
+	int f;
 	while(!(Similiars.empty())){
+		f = countchildren(Similiars.top());
 		int n = countattributes(Similiars.top());
-		obj+="\"" + Similiars.top()->Tag_Name + "\"";
-		obj+=": {";
+		//obj+="\"" + Similiars.top()->Tag_Name + "\"";
+		obj+="{";
 		if(n>=0){
 			for(int i=0;i<n;i++){
-				obj+="\"" +"@"+ Similiars.top()->attributes[i].Name + "\"";
+				obj+="\"" + "@" + Similiars.top()->attributes[i].Name + "\"";
 				obj+="\"" + Similiars.top()->attributes[i].Value + "\"";
 				obj+=",";
 			}
 		}
-		if(Similiars.top()->Tag_Value!=nullptr){
+		
+		if(Similiars.top()->Tag_Value== "" ){
+			obj+="}";
+			obj+="\n";
+		}
+		else{
 			obj+="\"" + "#"+ "text" + "\"" +": ";
 			obj+="\"" + Similiars.top()->Tag_Value + "\"" + "}";
 			obj+="\n";
 		}
-		else{
-			obj+="}";
-		}
 		Similiars.top()->visited = true;
 		Similiars.pop();
 		i++;
-		g--;
 	}
 	obj+="]";
 }
 
 
-void Tree::xml2json(TreeNode* node){
+void Tree::xml2json(TreeNode* node,string &obj){
 	stack<TreeNode*> Similiars;
-	g=countchildren(node);
-	if(g==0){
-		int n = countattributes(node);
-		obj+="\"" + node->Tag_Name + "\"";
-		obj+=": {";
-		obj+="\n";
-		if(n>=0){
-			for(int i=0;i<n;i++){
-				obj+="\"" +"@"+ node->attributes[i].Name + "\"";
-				obj+="\"" + node->attributes[i].Value + "\"";
-				obj+=",";
-				obj+="\n";
-			}
-		} //if the tag does not have text
-		if(node->Tag_Value!=nullptr){
-			obj+="\"" + "#"+ "text" + "\"" +": ";
-			obj+="\"" + node->Tag_Value + "\"" + "\n"+"}";
+	string obj= "";
+	int g=countchildren(node);
+	int n = countattributes(node);
+	obj+="\"" + node->Tag_Name + "\"";
+	obj+=": {";
+	obj+="\n";
+	if(n>=0){
+		for(int i=0;i<n;i++){
+			obj += "\"" + "@" + node->attributes[i].Name + "\"";
+			obj+="\"" + node->attributes[i].Value + "\"";
+			obj+=",";
 			obj+="\n";
 		}
-		else{
-			obj+="\"" + "#"+ "text" + "\"" +": "+"NULL"+"}";
-		}
-		return;
+	} //if the tag does not have text
+	if(node->Tag_Value!=nullptr){
+		obj+="\"" + "#"+ "text" + "\"" +": ";
+		obj+="\"" + node->Tag_Value + "\"" + "\n"+"}";
+		obj+="\n";
 	}
+	/*else{
+		obj+="\"" + "#"+ "text" + "\"" +": "+"NULL"+"}";
+	}*/
+	if(g==0){
 
+		return ;
+	}
+	
 	for(int i = 0; i < g; i++){
 		int m = countsimiliar(node,node->children[i],Similiars);
 		if(m==1){
+			
 			xml2json(node->children[i]);
 		}
-		else if(m>1&&(node->children[i].visited==false)){
+		else if(m>1&&(node->children[i]->visited==false)){
 			form(Similiars,g); 
 		}
 	}
 }
 
 void Tree::minifying(TreeNode* node){
-	g=countchildren(node);
+	int g = countchildren(node);
 	if(g==0){
 		int n = countattributes(node);
 		mini+="<" + node->Tag_Name;
@@ -112,14 +119,14 @@ void Tree::minifying(TreeNode* node){
 		mini+=">";
 		mini+=node->Tag_Value;
 		mini+="/<" + node->Tag_Name+">";
-		return;
+		return ;
 	}
 	for(int i = 0; i < g; i++){
 			minifying(node->children[i]);
 	}
 }
 void Tree::View(TreeNode* node){ //call format after that
-	g=countchildren(node);
+	int g=countchildren(node);
 	if(g==0){
 		int n = countattributes(node);
 		V+="<" + node->Tag_Name;
