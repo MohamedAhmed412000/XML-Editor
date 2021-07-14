@@ -97,6 +97,58 @@
 }
 
 
+string Tree::ptr_minifying(TreeNode* node, string&mini){
+	int g=countchildren(node);
+    int n = countattributes(node);
+    mini+="<" + node->Tag_Name;
+    if(n>=0){
+        for(int i=0;i<n;i++){
+            mini+=" " +node->attributes[i].Name + "=";
+            mini+="\""+ node->attributes[i].Value +"\" ";
+        }
+    }
+    mini+=">";
+    mini+=node->Tag_Value;
+
+	if(g==0){
+        mini+="</" + node->Tag_Name+">";
+		return mini;
+	}
+	for(int i = 0; i < g; i++){
+			ptr_minifying(node->children[i], mini);
+	}
+	mini+="</" + node->Tag_Name+">";
+	return mini;
+}
+
+string ptr_View(TreeNode* node, string&V){ //call format after that
+	int g=countchildren(node);
+    int n = countattributes(node);
+    V+="<" + node->Tag_Name;
+    if(n>=0){
+        for(int i=0;i<n;i++){
+            V+=" " +node->attributes[i].Name + "=";
+            V+="\""+ node->attributes[i].Value +"\" ";
+        }
+    }
+    V+=">";
+    if(node->Tag_Value!="") V+="\n";
+    V+=node->Tag_Value;
+    V+="\n";
+	if(g==0){
+		V+="</" + node->Tag_Name+">";
+		V+="\n";
+		return V;
+	}
+	for(int i = 0; i < g; i++){
+			ptr_View(node->children[i], V);
+	}
+	V+="</" + node->Tag_Name+">";
+	V+="\n";
+	return V;
+}
+
+
 int Tree::Get_Siblings(TreeNode* node){
 	if (node->Parent == nullptr)
 		return 0;
