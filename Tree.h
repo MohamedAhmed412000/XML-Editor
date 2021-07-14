@@ -7,6 +7,7 @@ using namespace std;
 
 string obj={};
 string mini={};
+string V={};
 
 struct Attribute{
 	string Name, Value;
@@ -36,6 +37,7 @@ public:
 	void form(stack<TreeNode*> Similiars,int &g);
 	void xml2json(TreeNode* node);
 	void minifying(TreeNode* node);
+	void View(TreeNode* node);
 	//int Node_hight(TreeNode* node); //get the hight of that node
 	//int Tree_hight(TreeNode* node); //get the hight of the all tree
 	//int Nodes_number(TreeNode* node);//get the number of all nodes

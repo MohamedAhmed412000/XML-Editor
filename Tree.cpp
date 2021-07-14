@@ -93,7 +93,7 @@ void Tree::xml2json(TreeNode* node){
 			xml2json(node->children[i]);
 		}
 		else if(m>1&&(node->children[i].visited==false)){
-			form(Similiars,g); //not sure of that yet as i need to delete the similar nodes after we use it because if we don't it will be called forever
+			form(Similiars,g); 
 		}
 	}
 }
@@ -116,6 +116,28 @@ void Tree::minifying(TreeNode* node){
 	}
 	for(int i = 0; i < g; i++){
 			minifying(node->children[i]);
+	}
+}
+void Tree::View(TreeNode* node){ //call format after that
+	g=countchildren(node);
+	if(g==0){
+		int n = countattributes(node);
+		V+="<" + node->Tag_Name;
+		if(n>=0){
+			for(int i=0;i<n;i++){
+				V+=" " +node->attributes[i].Name + "=";
+				V+="\""+ node->attributes[i].Value +"\" ";
+			}
+		}
+		V+=">";
+		V+="\n";
+		V+=node->Tag_Value;
+		V+="\n";
+		V+="/<" + node->Tag_Name+">";
+		return;
+	}
+	for(int i = 0; i < g; i++){
+			View(node->children[i]);
 	}
 }
 
