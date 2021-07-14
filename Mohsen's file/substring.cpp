@@ -1,10 +1,6 @@
 // substring.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
-#include <iostream>
-#include<string>
-#include<vector>
-#include<stack>
 #include"substring.h"
 using namespace std;
 string Erase_Spaces(string str) {
