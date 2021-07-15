@@ -1,0 +1,46 @@
+<RCC>
+    <qresource prefix="/Icons">
+        <file>Icons/about.png</file>
+        <file>Icons/about-Qt.png</file>
+        <file>Icons/close-file.png</file>
+        <file>Icons/close-files.png</file>
+        <file>Icons/color.png</file>
+        <file>Icons/compression.png</file>
+        <file>Icons/contact-us.png</file>
+        <file>Icons/copy.png</file>
+        <file>Icons/cut.png</file>
+        <file>Icons/exit.png</file>
+        <file>Icons/files.png</file>
+        <file>Icons/find.png</file>
+        <file>Icons/font.png</file>
+        <file>Icons/help.png</file>
+        <file>Icons/json.png</file>
+        <file>Icons/new-file.png</file>
+        <file>Icons/open-file.png</file>
+        <file>Icons/paste.png</file>
+        <file>Icons/programming.png</file>
+        <file>Icons/question.png</file>
+        <file>Icons/redo.png</file>
+        <file>Icons/replace.png</file>
+        <file>Icons/Save-as.png</file>
+        <file>Icons/save-file.png</file>
+        <file>Icons/select_all.png</file>
+        <file>Icons/source-code.png</file>
+        <file>Icons/text_bold.png</file>
+        <file>Icons/text_italic.png</file>
+        <file>Icons/text_underline.png</file>
+        <file>Icons/undo.png</file>
+        <file>Icons/zoom-in.png</file>
+        <file>Icons/zoom-out.png</file>
+        <file>Icons/size.png</file>
+        <file>Icons/diagnostic.png</file>
+        <file>Icons/Solve problem.png</file>
+        <file>Icons/bucket.png</file>
+        <file>Icons/XML.png</file>
+        <file>Icons/xml Icon.png</file>
+        <file>Icons/erase-1324760575474635003_512.png</file>
+        <file>Icons/icons8-space-after-paragraph-50.png</file>
+        <file>Icons/zipped-file-icon-15.jpg</file>
+        <file>Icons/tutorial.png</file>
+    </qresource>
+</RCC>
