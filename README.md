@@ -5,7 +5,7 @@
 
 ![GitHub language count](https://img.shields.io/github/languages/count/MohamedAhmed412000/XML-Editor?color=%2300&logo=GitHub)
 ![GitHub contributors](https://img.shields.io/github/contributors/MohamedAhmed412000/XML_Editor?color=%2300&logo=GitHub)
-![GitHub top language](https://img.shields.io/badge/c%2B%2B-100.0%25-brightgreen)
+![GitHub top language](https://img.shields.io/badge/C%2B%2B-100.0%25-brightgreen)
 
 The project is an XML Editor to do different operations on XML files.
 </div> 
